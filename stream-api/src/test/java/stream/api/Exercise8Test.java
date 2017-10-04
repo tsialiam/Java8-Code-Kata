@@ -5,7 +5,6 @@ import common.test.tool.dataset.ClassicOnlineStore;
 import common.test.tool.entity.Customer;
 import common.test.tool.entity.Item;
 import common.test.tool.entity.Shop;
-
 import org.junit.Test;
 
 import java.util.List;
@@ -16,11 +15,12 @@ import java.util.stream.Stream;
 
 import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class Exercise8Test extends ClassicOnlineStore {
 
-    @Difficult @Test
+    @Difficult
+    @Test
     public void itemsNotOnSale() {
         Stream<Customer> customerStream = this.mall.getCustomerList().stream();
         Stream<Shop> shopStream = this.mall.getShopList().stream();
@@ -45,7 +45,8 @@ public class Exercise8Test extends ClassicOnlineStore {
         assertThat(itemSetNotOnSale, hasItems("bag", "pants", "coat"));
     }
 
-    @Difficult @Test
+    @Difficult
+    @Test
     public void havingEnoughMoney() {
         Stream<Customer> customerStream = this.mall.getCustomerList().stream();
         Stream<Shop> shopStream = this.mall.getShopList().stream();
@@ -64,7 +65,12 @@ public class Exercise8Test extends ClassicOnlineStore {
                         customer.getBudget() >=
                                 customer.getWantToBuy()
                                         .stream()
-                                        .mapToInt( item -> onSale.stream().filter(onSaleItem -> onSaleItem.getName().equals(item.getName())).mapToInt(Item::getPrice).sum())
+                                        .mapToInt(item ->
+                                                onSale
+                                                        .stream()
+                                                        .filter(
+                                                                onSaleItem ->
+                                                                        onSaleItem.getName().equals(item.getName())).findFirst().map(Item::getPrice).orElse(0))
                                         .sum();
 
         List<String> customerNameList = customerStream
