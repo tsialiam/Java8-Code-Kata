@@ -34,7 +34,7 @@ public class Exercise9Test extends ClassicOnlineStore {
          * Implement a {@link Collector} which can create a String with comma separated names shown in the assertion.
          * The collector will be used by serial stream.
          */
-        Supplier<Object> supplier = null;
+        Supplier<Object> supplier = () -> "";
         BiConsumer<Object, String> accumulator = null;
         BinaryOperator<Object> combiner = null;
         Function<Object, String> finisher = null;
